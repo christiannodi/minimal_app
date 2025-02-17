@@ -7,7 +7,5 @@ class AppPallete {
   static const white = Color(0xFFF0F0F0);
   static const whitedefault = Color(0xFFFFFFFF);
 
-  static const whitedefasult = Color(0xFFFFFFFF);
-
   static const greywhite = Color(0xFFD9D9D9);
 }
