@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:minimal_app/model/address_model.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget_text.dart';
+import '../../../model/address_model.dart';
+import '../../../theme.dart';
+import '../../../widget_text.dart';
 
 class AddressSettings extends StatelessWidget {
   const AddressSettings({super.key});

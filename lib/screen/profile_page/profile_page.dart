@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:minimal_app/screen/home_page/home_page.dart';
-import 'package:minimal_app/screen/profile_page/screen/address_settings.dart';
-import 'package:minimal_app/screen/profile_page/screen/privacy_settings.dart';
-import 'package:minimal_app/screen/profile_page/screen/profile_settings.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget_text.dart';
+import '../home_page/home_page.dart';
+import 'screen/address_settings.dart';
+import 'screen/privacy_settings.dart';
+import 'screen/profile_settings.dart';
+import '../../theme.dart';
+import '../../widget_text.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget_text.dart';
+import '../../../theme.dart';
+import '../../../widget_text.dart';
 
 class PrivacySettings extends StatelessWidget {
   const PrivacySettings({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/screen/home_page/home_page.dart';
-import 'package:minimal_app/screen/love_page/love_page.dart';
-import 'package:minimal_app/screen/profile_page/profile_page.dart';
-import 'package:minimal_app/screen/search_page/search_page.dart';
-import 'package:minimal_app/theme.dart';
+import '../home_page/home_page.dart';
+import '../love_page/love_page.dart';
+import '../profile_page/profile_page.dart';
+import '../search_page/search_page.dart';
+import '../../theme.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

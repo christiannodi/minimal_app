@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:minimal_app/widget/button_widget.dart';
-import 'package:minimal_app/widget/form_widget.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget_text.dart';
+import '../../../widget/button_widget.dart';
+import '../../../widget/form_widget.dart';
+import '../../../theme.dart';
+import '../../../widget_text.dart';
 
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({super.key});

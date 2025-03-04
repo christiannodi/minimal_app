@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:minimal_app/theme.dart';
+import '../../../theme.dart';
 
 class CustomDropdownExample extends StatefulWidget {
   @override

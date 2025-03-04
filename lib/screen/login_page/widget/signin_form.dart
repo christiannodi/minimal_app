@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/screen/bottom_bar/bottom_bar.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget/button_widget.dart';
-import 'package:minimal_app/widget/form_widget.dart';
+import '../../bottom_bar/bottom_bar.dart';
+import '../../../theme.dart';
+import '../../../widget/button_widget.dart';
+import '../../../widget/form_widget.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({super.key});

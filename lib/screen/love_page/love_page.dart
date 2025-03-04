@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/model/popular_model.dart';
-import 'package:minimal_app/theme.dart';
+import '../../model/popular_model.dart';
+import '../../theme.dart';
 
 class LovePage extends StatelessWidget {
   const LovePage({super.key});

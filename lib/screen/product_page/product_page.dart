@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/model/popular_model.dart';
-import 'package:minimal_app/screen/love_page/love_page.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget_text.dart';
+import '../../model/popular_model.dart';
+import '../love_page/love_page.dart';
+import '../../theme.dart';
+import '../../widget_text.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});

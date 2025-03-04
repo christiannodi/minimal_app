@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/screen/login_page/widget/signin_form.dart';
-import 'package:minimal_app/screen/login_page/widget/signup_form.dart';
-import 'package:minimal_app/theme.dart';
+import 'widget/signin_form.dart';
+import 'widget/signup_form.dart';
+import '../../theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

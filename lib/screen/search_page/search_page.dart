@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/screen/search_page/screen/dropdown_button.dart';
-import 'package:minimal_app/theme.dart';
-import 'package:minimal_app/widget_text.dart';
+import 'screen/dropdown_button.dart';
+import '../../theme.dart';
+import '../../widget_text.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});

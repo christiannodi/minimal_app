@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/theme.dart';
+import 'theme.dart';
 
 class TxtCustom extends StatelessWidget {
   final String tittle;

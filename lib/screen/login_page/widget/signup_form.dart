@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/widget/form_widget.dart';
-import 'package:minimal_app/theme.dart';
+import '../../../widget/form_widget.dart';
+import '../../../theme.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});

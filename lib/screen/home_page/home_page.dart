@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:minimal_app/model/popular_model.dart';
-import 'package:minimal_app/screen/product_page/product_page.dart';
-import 'package:minimal_app/theme.dart';
+import '../../model/popular_model.dart';
+import '../product_page/product_page.dart';
+import '../../theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
