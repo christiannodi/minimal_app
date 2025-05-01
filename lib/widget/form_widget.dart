@@ -84,13 +84,14 @@ class InputFormProfile extends StatefulWidget {
   final String initialValue; // Data awal yang bisa diedit
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final bool enabled;
 
-  const InputFormProfile({
-    super.key,
-    required this.initialValue,
-    this.controller,
-    this.validator,
-  });
+  const InputFormProfile(
+      {super.key,
+      required this.initialValue,
+      this.controller,
+      this.validator,
+      this.enabled = true});
 
   @override
   State<InputFormProfile> createState() => _InputFormProfileState();
@@ -122,10 +123,11 @@ class _InputFormProfileState extends State<InputFormProfile> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
+        enabled: widget.enabled,
         controller: _controller, // Teks awal diatur dari controller
         validator: widget.validator,
         style: GoogleFonts.jetBrainsMono(
-            fontSize: 12, fontWeight: FontWeight.w400, color: AppPallete.grey),
+            fontSize: 12, fontWeight: FontWeight.w400, color: AppPallete.black),
         decoration: InputDecoration(
           filled: true,
           fillColor: AppPallete.whitedefault,
@@ -141,7 +143,7 @@ class _InputFormProfileState extends State<InputFormProfile> {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(color: AppPallete.white, width: 0),
+            borderSide: const BorderSide(color: AppPallete.grey, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
@@ -151,6 +153,76 @@ class _InputFormProfileState extends State<InputFormProfile> {
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: Colors.red, width: 1),
           ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+                color: AppPallete.grey, width: 1), // ✅ Samain dengan enabled
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//!FORM ADDRESS
+class InputFormAddress extends StatefulWidget {
+  final String? initialValue; // Data awal yang bisa diedit
+  final String tittle;
+  final String hinttext;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+
+  const InputFormAddress({
+    super.key,
+    this.initialValue,
+    required this.tittle,
+    required this.hinttext,
+    this.controller,
+    this.validator,
+  });
+
+  @override
+  State<InputFormAddress> createState() => _InputFormAddressState();
+}
+
+class _InputFormAddressState extends State<InputFormAddress> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      validator: widget.validator,
+      style: GoogleFonts.jetBrainsMono(
+          fontSize: 12, fontWeight: FontWeight.w400, color: AppPallete.black),
+      decoration: InputDecoration(
+        labelText: widget.tittle,
+        labelStyle: GoogleFonts.jetBrainsMono(
+            fontSize: 12, fontWeight: FontWeight.w400, color: AppPallete.grey),
+        filled: true,
+        fillColor: AppPallete.whitedefault,
+        hintText: widget.hinttext,
+        hintStyle: GoogleFonts.jetBrainsMono(
+            fontSize: 12, fontWeight: FontWeight.w400, color: AppPallete.grey),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: AppPallete.grey, width: 0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.blueAccent, width: 1),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+              color: AppPallete.grey, width: 1), // ✅ Samain dengan enabled
         ),
       ),
     );

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:minimal_app/bloc/getallproduct_bloc/getallproduct_bloc.dart';
+import 'package:minimal_app/bloc/getuserdata_bloc/getuserdata_bloc.dart';
+import '../../bloc/getallproduct2_bloc/getallproduct2_bloc.dart';
+import '../../bloc/getcount_bloc/getcount_bloc.dart';
 import '../home_page/home_page.dart';
 import '../love_page/love_page.dart';
 import '../profile_page/profile_page.dart';
@@ -15,6 +20,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Pastikan untuk memanggil event GetUser untuk mengambil data setelah login
+    context.read<GetuserdataBloc>().add(GetUser());
+    context.read<GetallproductBloc>().add(Getallproduct());
+    context.read<Getallproduct2Bloc>().add(Getallproduct2());
+    context.read<GetcountBloc>().add(GetCount());
+  }
+
   int _currentIndex = 0;
   final List<Widget?> _pages = [null, null, null, null];
 

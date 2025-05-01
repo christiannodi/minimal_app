@@ -8,13 +8,22 @@ environment:
 
 dependencies:
   carousel_slider: ^5.0.0
+  dio: ^5.8.0+1
   dropdown_button2: ^2.3.9
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.0
   flutter_launcher_icons: ^0.14.3
+  flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.17
   gap: ^3.0.1
   google_fonts: ^6.2.1
+  image_picker: ^1.1.2
+  intl: ^0.20.2
+  liquid_pull_to_refresh: ^3.0.1
+  lottie: ^3.3.1
+  shimmer: ^3.0.0
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -29,7 +38,9 @@ flutter:
     - assets/app_logo/
     - assets/png/man_category/
     - assets/png/product/
+    - assets/png/intro/
     - assets/svg/
+    - assets/lottie/
 
 flutter_icons:
   android: true

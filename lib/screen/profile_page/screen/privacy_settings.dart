@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:minimal_app/api/request_api.dart';
+import 'package:minimal_app/models/secure_storage_flutter/secure_storage.dart';
+import 'package:minimal_app/screen/login_page/login_page.dart';
 import '../../../theme.dart';
 import '../../../widget_text.dart';
 
@@ -16,6 +19,7 @@ class PrivacySettings extends StatelessWidget {
         child: Column(
           children: [
             Stack(
+              alignment: AlignmentDirectional.bottomCenter,
               children: [
                 // Background Header
                 Container(
@@ -30,9 +34,8 @@ class PrivacySettings extends StatelessWidget {
 
                 // Konten di atas background
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 50),
-
                     // Teks Edit Profile
                     const TxtCustom(
                       tittle: "Setting & Privacy",
@@ -45,16 +48,15 @@ class PrivacySettings extends StatelessWidget {
 
                     // Card Profil
                     Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: AppPallete.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      padding: const EdgeInsets.only(top: 20),
-                    ),
+                        height: 20,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: AppPallete.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        )),
                   ],
                 ),
 
@@ -96,17 +98,114 @@ class PrivacySettings extends StatelessWidget {
                         detail:
                             "Select the kinds of notifications you get about activities, interests, and recommendations."),
                     Gap(15),
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
+                    GestureDetector(
+                      onTap: () async {
+                        final shouldLogout = await showDialog<bool>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) => Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Sudut lebih rounded
+                            ),
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 10.0,
+                                    offset: Offset(0, 10),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    'Are you sure you want to logout?',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 24),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, false),
+                                        child: Text(
+                                          'CANCEL',
+                                          style: TextStyle(
+                                            color: Colors.grey[700],
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, true),
+                                        child: Text(
+                                          'LOGOUT',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+
+                        if (shouldLogout == true && context.mounted) {
+                          final secureStorageHelper = SecureStorageHelper();
+                          RequestApiHeader requestApiHeader =
+                              RequestApiHeader(secureStorageHelper);
+                          await requestApiHeader.logout(context);
+
+                          if (context.mounted) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                              (Route<dynamic> route) => false,
+                            );
+                          }
+                        }
+                      },
+                      child: Container(
+                        height: 35,
+                        decoration: BoxDecoration(
                           color: AppPallete.whitedefault,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: TxtCustom(
-                          tittle: "LOGOUT",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                          color: AppPallete.pink,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: TxtCustom(
+                            tittle: "LOGOUT",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w900,
+                            color: AppPallete.pink,
+                          ),
                         ),
                       ),
                     ),

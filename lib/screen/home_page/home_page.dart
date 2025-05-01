@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../model/popular_model.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:minimal_app/bloc/getallproduct_bloc/getallproduct_bloc.dart';
+import 'package:minimal_app/models/list_product_model.dart';
+import 'package:minimal_app/screen/cart_page/cart_page.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import '../../bloc/getallproduct2_bloc/getallproduct2_bloc.dart';
+import '../../bloc/getcount_bloc/getcount_bloc.dart';
 import '../product_page/product_page.dart';
 import '../../theme.dart';
 
@@ -14,115 +21,269 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   // ✅ Hanya fetch jika state belum ada
+  //   context.read<GetallproductBloc>().add(Getallproduct());
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppPallete.whitedefault,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gap(40),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Text(
-                ".minimal",
-                style: GoogleFonts.jetBrainsMono(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppPallete.black,
+      body: LiquidPullToRefresh(
+        color: AppPallete.pink,
+        onRefresh: () async {
+          context.read<GetallproductBloc>().add(Getallproduct());
+          context.read<GetcountBloc>().add(GetCount());
+          context.read<Getallproduct2Bloc>().add(Getallproduct2());
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(40),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  ".minimal",
+                  style: GoogleFonts.jetBrainsMono(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppPallete.black,
+                  ),
                 ),
               ),
-            ),
-            Gap(8),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [searchBar(), Gap(10), CartIcon()],
-              ),
-            ),
-            Gap(20),
-            promotionBox(),
-            Gap(16),
-            TittleProduct(
-              tittle: "Popular products",
-            ),
-            Gap(10),
-            SizedBox(
-              height: 212,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: listPopular.length,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Gap(20);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return PopularProduct(
-                    popularProduct: listPopular[index],
-                  );
-                },
-              ),
-            ),
-            Gap(10),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                width: double.infinity,
-                height: 84,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppPallete.white,
+              Gap(8),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [searchBar(), Gap(10), CartIcon()],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Who are you shopping for?",
-                      style: GoogleFonts.jetBrainsMono(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: AppPallete.black,
+              ),
+              Gap(20),
+              promotionBox(),
+              Gap(16),
+              TittleProduct(
+                tittle: "Popular products",
+              ),
+              Gap(10),
+              BlocBuilder<GetallproductBloc, GetallproductState>(
+                builder: (context, state) {
+                  if (state is GetallproductSuccess) {
+                    final products =
+                        state.productDataModel; // Ambil list produk
+
+                    return SizedBox(
+                      height: 212,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        itemCount: products.length,
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Gap(20);
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          final product = products[index];
+                          return PopularProduct(
+                            product: product,
+                          );
+                        },
                       ),
-                    ),
-                    Gap(4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Button(tittle: "MAN"),
-                        Gap(20),
-                        Button(tittle: "WOMEN")
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Gap(16),
-            TittleProduct(
-              tittle: "T-shirt products",
-            ),
-            Gap(10),
-            SizedBox(
-              height: 212,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: listPopular.length,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Gap(20);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return PopularProduct(
-                    popularProduct: listPopular[index],
+                    );
+                  }
+                  if (state is GetallproductLoading) {
+                    return Skeletonizer(
+                      enabled: true,
+                      child: SizedBox(
+                        height: 212,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          itemCount: 4,
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Gap(20);
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 212,
+                              width: 131,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 167,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.asset(
+                                          "assets/png/product/product1.png",
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                  Gap(8),
+                                  Text(
+                                    "Product Price",
+                                    style: GoogleFonts.jetBrainsMono(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppPallete.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Product Name",
+                                    style: GoogleFonts.jetBrainsMono(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppPallete.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Text("No Data"),
                   );
                 },
               ),
-            ),
-          ],
+              Gap(10),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Container(
+                  width: double.infinity,
+                  height: 84,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppPallete.white,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Who are you shopping for?",
+                        style: GoogleFonts.jetBrainsMono(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          color: AppPallete.black,
+                        ),
+                      ),
+                      Gap(4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Button(tittle: "MAN"),
+                          Gap(20),
+                          Button(tittle: "WOMEN")
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Gap(16),
+              TittleProduct(
+                tittle: "T-shirt products",
+              ),
+              Gap(10),
+              BlocBuilder<Getallproduct2Bloc, Getallproduct2State>(
+                builder: (context, state) {
+                  if (state is Getallproduct2Success) {
+                    final products =
+                        state.productDataModel; // Ambil list produk
+
+                    return SizedBox(
+                      height: 212,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        itemCount: products.length,
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Gap(20);
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          final product = products[index];
+                          return PopularProduct(
+                            product: product,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  if (state is Getallproduct2Loading) {
+                    return Skeletonizer(
+                      enabled: true,
+                      child: SizedBox(
+                        height: 212,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          itemCount: 4,
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Gap(20);
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 212,
+                              width: 131,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 167,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.asset(
+                                          "assets/png/product/product1.png",
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                  Gap(8),
+                                  Text(
+                                    "Product Price",
+                                    style: GoogleFonts.jetBrainsMono(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppPallete.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Product Name",
+                                    style: GoogleFonts.jetBrainsMono(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppPallete.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Text("No Data"),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -177,12 +338,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProductPage()),
-            );
-          },
+          onTap: () {},
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Button(
@@ -202,18 +358,72 @@ class CartIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: AppPallete.black),
-        child: Center(
-          child: SvgPicture.asset(
-            'assets/svg/cart.svg',
-            width: 20,
-            height: 20,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CartPage(),
           ),
-        ));
+        );
+      },
+      child: Stack(children: [
+        Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppPallete.black),
+            child: Center(
+              child: SvgPicture.asset(
+                'assets/svg/cart.svg',
+                width: 20,
+                height: 20,
+              ),
+            )),
+        BlocBuilder<GetcountBloc, GetcountState>(
+          builder: (context, state) {
+            if (state is GetcountLoading) {
+              return Container();
+            }
+            if (state is GetcountError) {
+              return Container();
+            }
+            if (state is GetcountSuccess) {
+              final countDataModel = state.countDataModel;
+
+              if (countDataModel.cart == 0) {
+                return Container();
+              }
+
+              return Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  width: 15,
+                  height: 15,
+                  decoration: BoxDecoration(
+                    color: AppPallete.pink,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      countDataModel.cart.toString(),
+                      style: GoogleFonts.jetBrainsMono(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: AppPallete.white,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+            return Container();
+          },
+        )
+      ]),
+    );
   }
 }
 
@@ -244,48 +454,61 @@ class Button extends StatelessWidget {
 }
 
 class PopularProduct extends StatelessWidget {
-  final PopularProductsModel popularProduct;
+  final ProductDataModel product;
 
-  const PopularProduct({super.key, required this.popularProduct});
+  const PopularProduct({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 212,
-      width: 151,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 167,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ClipRRect(
+    return GestureDetector(
+      onTap: () {
+        // Navigasi ke halaman detail produk dengan ID
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductPage(productId: product.id),
+          ),
+        );
+      },
+      child: SizedBox(
+        height: 212,
+        width: 131,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 167,
+              width: 131,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  popularProduct.image,
-                  fit: BoxFit.cover,
-                )),
-          ),
-          Gap(8),
-          Text(
-            popularProduct.price,
-            style: GoogleFonts.jetBrainsMono(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: AppPallete.black,
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    product.thumbnail,
+                    fit: BoxFit.cover,
+                  )),
             ),
-          ),
-          Text(
-            popularProduct.name,
-            style: GoogleFonts.jetBrainsMono(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: AppPallete.grey,
+            Gap(8),
+            Text(
+              "Rp${product.price}",
+              style: GoogleFonts.jetBrainsMono(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: AppPallete.black,
+              ),
             ),
-          ),
-        ],
+            Text(
+              product.title,
+              maxLines: 1,
+              style: GoogleFonts.jetBrainsMono(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: AppPallete.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
