@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minimal_app/screen/login_page/login_page.dart';
 
 import '../models/secure_storage_flutter/secure_storage.dart';
@@ -43,7 +44,9 @@ class AuthInterceptor extends Interceptor {
         if (refreshToken == null) throw Exception("No refresh token available");
 
         // Kirim request untuk refresh token
-        final dio = Dio();
+        // final dio = Dio();
+        final baseUrlEnv = dotenv.env['BASE_URL']!;
+        final dio = Dio(BaseOptions(baseUrl: baseUrlEnv));
         final response = await dio.post(
           'https://www.dev-api.pantone.my.id/v1/users/me/sessions/refresh',
           options: Options(headers: {

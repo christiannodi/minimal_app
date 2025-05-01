@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minimal_app/bloc/getcount_bloc/getcount_bloc.dart';
 import 'package:minimal_app/models/add_cart_model.dart';
 import 'package:minimal_app/models/count_model.dart';
@@ -23,8 +24,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/detail_product_model.dart';
 
+final baseUrlEnv = dotenv.env['BASE_URL']!;
+
 class RequestApi {
-  final dio = Dio(BaseOptions(baseUrl: 'https://www.dev-api.pantone.my.id/v1'));
+  final dio = Dio(BaseOptions(baseUrl: baseUrlEnv));
 
   //! REGISTER
   Future<Map<String, dynamic>> register(RegisterModel request) async {
@@ -76,7 +79,7 @@ class RequestApi {
 }
 
 class RequestApiHeader {
-  final dio = Dio(BaseOptions(baseUrl: 'https://www.dev-api.pantone.my.id/v1'));
+  final dio = Dio(BaseOptions(baseUrl: baseUrlEnv));
 
   //! import flutterstorage
   final SecureStorageHelper secureStorageHelper;

@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
+  flutter_dotenv: ^5.2.1
   flutter_launcher_icons: ^0.14.3
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.17
@@ -41,6 +42,7 @@ flutter:
     - assets/png/intro/
     - assets/svg/
     - assets/lottie/
+    - .env
 
 flutter_icons:
   android: true
