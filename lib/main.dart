@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minimal_app/api/request_api.dart';
 import 'package:minimal_app/bloc/addaddress_bloc/addaddress_bloc.dart';
 import 'package:minimal_app/bloc/addcart_bloc/addcart_bloc.dart';
@@ -27,7 +28,8 @@ import 'bloc/editprofile_bloc/editprofile_bloc.dart';
 import 'bloc/getcount_bloc/getcount_bloc.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(const MainApp());
 }
 
