@@ -48,7 +48,7 @@ class AuthInterceptor extends Interceptor {
         final baseUrlEnv = dotenv.env['BASE_URL']!;
         final dio = Dio(BaseOptions(baseUrl: baseUrlEnv));
         final response = await dio.post(
-          'https://www.dev-api.pantone.my.id/v1/users/me/sessions/refresh',
+          '/users/me/sessions/refresh',
           options: Options(headers: {
             'Authorization': 'Bearer $refreshToken',
           }),
