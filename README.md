@@ -1,5 +1,5 @@
 # Minimal App - Design UI
-Preview: https://youtube.com/shorts/BwXOyOBII6A?feature=share
+Preview: https://youtu.be/i_lFEVghB-s
 
 completely free for everyone. Its build-in Flutter Dart.
 
